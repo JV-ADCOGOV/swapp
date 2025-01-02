@@ -9,7 +9,7 @@ swapp is a web application that helps SWAP (Severe Weather Action Plan) casework
 ### Environment Setup
 First, install the following:
 
-1. [Ruby](https://www.ruby-lang.org/en/documentation/installation) - This project uses version `2.7.4`. You can use [rbenv](https://github.com/rbenv/rbenv) to easily manage your local ruby version: `rbenv install 2.7.4` 
+1. [Ruby](https://www.ruby-lang.org/en/documentation/installation) - This project uses version `3.1.5`. You can use [rbenv](https://github.com/rbenv/rbenv) to easily manage your local ruby version: `rbenv install 3.1.5` 
 1. [Ruby on Rails](https://guides.rubyonrails.org/v5.0/getting_started.html#installing-rails)
 1. [Node.JS and npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm#checking-your-version-of-npm-and-node-js)
 1. [postgres](https://www.postgresql.org/download/)
