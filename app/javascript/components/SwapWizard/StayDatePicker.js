@@ -43,6 +43,7 @@ export default class StayDatePicker extends React.Component {
   }
 
   handleDayClick(day) {
+    byebug
     if (DateUtils.isPastDay(day)) return false
     else if (this.state.preventEditingFromDate && DateUtils.isDayBefore(day, this.state.originalTo)) return false
     else if (this.state.preventEditingFromDate && DateUtils.isSameDay(day, this.state.to)) return false

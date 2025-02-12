@@ -51,6 +51,7 @@ end
 group :test do
   gem "capybara", ">= 2.15"
   gem "selenium-webdriver"
+  gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
 
   # After 8/10/23 `bundle update webdrivers`:
   #    Webdrivers gem update options
