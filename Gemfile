@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
-ruby "2.7.4"
+ruby "3.1.5"
 
 gem "aasm", "~> 5.1"
 gem "active_interaction", "~> 4.0"
@@ -17,6 +17,7 @@ gem "pagy", "~> 5.10"
 gem "pg", ">= 0.18", "< 2.0"
 gem "pg_search", "~> 2.3"
 gem "phonelib", "~> 0.6.48"
+gem 'psych', '< 4'
 gem "puma", "~> 4.3"
 gem "rails", "~> 6.1"
 gem "ransack", github: "activerecord-hackery/ransack"
