@@ -2,13 +2,11 @@ class IntakesController < ApplicationController
   def new
     @client =
       params[:client_id].present? ? Client.find(params[:client_id]) : Client.new
-
     @intake = Intake.new
     @voucher = Voucher.new
   end
 
   def create
-    # reject me if client hasn't agreed to waiver and participant agreement form
     client_params = intake_params[:client_attributes]
 
     @client =
@@ -34,26 +32,6 @@ class IntakesController < ApplicationController
         force_intake: false,
       ),
     )
-
-    return render :new if !@client.save
-
-    if profile_photo_data_url.present?
-      # The data is Base64 and coming from the camera.
-      # Use that data to create a file for active storage.
-      # data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD....
-      blob =
-        ActiveStorage::Blob.create_after_upload!(
-          io:
-            StringIO.new(
-              (Base64.decode64(profile_photo_data_url.split(',')[1] || '')),
-            ),
-          filename: 'profile_photo.jpeg',
-          content_type: 'image/jpeg',
-        )
-
-      @client.profile_photo.attach(blob)
-    end
-
     @intake =
       Intake.new(
         intake_params
@@ -61,7 +39,8 @@ class IntakesController < ApplicationController
           .merge(
             swap_id: @swap.id,
             user_id: current_user.id,
-            client_id: @client.id,
+            # client_id: @client.id,
+            client: @client,
             household_tanf: !!intake_params[:household_tanf],
             have_you_ever_experienced_homelessness_before:
               !intake_params[:homelessness_first_time],
@@ -80,7 +59,24 @@ class IntakesController < ApplicationController
           ),
       )
 
-    return render :new if !@intake.save
+    if profile_photo_data_url.present?
+      # The data is Base64 and coming from the camera.
+      # Use that data to create a file for active storage.
+      # data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD....
+      blob =
+        ActiveStorage::Blob.create_after_upload!(
+          io:
+            StringIO.new(
+              (Base64.decode64(profile_photo_data_url.split(',')[1] || '')),
+            ),
+          filename: 'profile_photo.jpeg',
+          content_type: 'image/jpeg',
+        )
+
+      @client.profile_photo.attach(blob)
+    end
+
+    return render :new if (!@client.validate || !@intake.save)
 
     redirect_to new_voucher_path(
                   client_id: @client.id,

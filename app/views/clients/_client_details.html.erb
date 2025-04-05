@@ -5,6 +5,16 @@
 </div>
 <div class="rounded-lg bg-white shadow">
   <div class="bg-white p-4 rounded-t-lg border border-gray-200">
+        <% if @client.errors.any? %>
+        <div id="error_explanation" class="my-4 md:my-12 p-8 bg-red-400 font-bold">
+          <p><%= pluralize(@client.errors.count, "error") %> prohibited this client from being saved:</p>
+          <ul class="mt-8">
+            <% @client.errors.full_messages.each do |message| %>
+              <li class=""><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div>
         <div>

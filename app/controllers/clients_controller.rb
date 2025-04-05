@@ -1,5 +1,6 @@
 class ClientsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:update]
+  before_action :set_client, only: %i[show update]
 
   def index
     @q = Client.ransack(params[:q])
@@ -13,32 +14,9 @@ class ClientsController < ApplicationController
     render json: results
   end
 
-  def show
-    @client = Client.find(params[:id])
-    @existing_voucher = @client.current_voucher
-    @editing = params[:editing]
-    @hotels = Hotel.all
-    @hotel_map = Hotel.all.pluck(:id, :name).to_h
-    @incidents =
-      @client
-        .incident_reports
-        .order(created_at: :desc)
-        .map do |incident|
-          {
-            reportedBy: {
-              firstName: incident.reporter.first_name,
-              lastName: incident.reporter.last_name,
-              email: incident.reporter.email,
-            },
-            dateOfIncident: incident.occurred_at,
-            description: incident.description,
-          }
-        end
-    @incident_report = IncidentReport.new
-  end
+  def show; end
 
   def update
-    @client = Client.find(params[:id])
     client_params = params.require(:client).permit!
 
     if client_params['date_of_birth'].blank?
@@ -92,5 +70,29 @@ class ClientsController < ApplicationController
     return render json: client, status: :ok if client.save
 
     render json: client.errors.full_messages, status: :unprocessable_entity
+  end
+
+  def set_client
+    @client = Client.find(params[:id])
+    @existing_voucher = @client.current_voucher
+    @editing = params[:editing]
+    @hotels = Hotel.all
+    @hotel_map = Hotel.all.pluck(:id, :name).to_h
+    @incidents =
+      @client
+        .incident_reports
+        .order(created_at: :desc)
+        .map do |incident|
+          {
+            reportedBy: {
+              firstName: incident.reporter.first_name,
+              lastName: incident.reporter.last_name,
+              email: incident.reporter.email,
+            },
+            dateOfIncident: incident.occurred_at,
+            description: incident.description,
+          }
+        end
+    @incident_report = IncidentReport.new
   end
 end

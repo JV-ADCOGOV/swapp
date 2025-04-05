@@ -34,6 +34,15 @@ class Client < ApplicationRecord
   validates :first_name, :last_name, :date_of_birth, presence: true
   validates :gender, inclusion: { in: Client::GENDER, allow_nil: true }
   validates :ethnicity, inclusion: { in: Client::ETHNICITY, allow_nil: true }
+  validates :hmis_id,
+            uniqueness: true,
+            allow_nil: true,
+            length: {
+              is: 9,
+            },
+            format: {
+              with: /[A-Za-z0-9]+/,
+            }
 
   # validate :accepted_race_values
   # validates :phone_number, phone: { possible: true, allow_nil: true }
