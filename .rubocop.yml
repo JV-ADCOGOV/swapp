@@ -8,7 +8,7 @@ require:
 ## Rails Style Guide: https://rails.rubystyle.guide/
 
 AllCops:
-    TargetRubyVersion: 2.7.4
+    TargetRubyVersion: 3.1.5
     SuggestExtensions: false
     NewCops: enable
     Exclude:

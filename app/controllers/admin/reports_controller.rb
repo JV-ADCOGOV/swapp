@@ -25,6 +25,7 @@ class Admin::ReportsController < Admin::BaseController
           client_ethnicity
           client_short_intake_what_city_did_you_sleep_in_last_night
           voucher_guests
+          client_intake_county_eligibility
         ]
 
         Voucher
@@ -43,8 +44,8 @@ class Admin::ReportsController < Admin::BaseController
               voucher.hotel&.name,
               voucher.client&.first_name,
               voucher.client&.last_name,
-              voucher.client&.hmis_id,
               voucher.client&.date_of_birth,
+              voucher.client&.hmis_id,
               voucher.client&.gender,
               voucher.client&.phone_number,
               voucher.client&.email,
@@ -52,6 +53,7 @@ class Admin::ReportsController < Admin::BaseController
               voucher.client&.ethnicity,
               voucher.client.short_intakes.last&.what_city_did_you_sleep_in_last_night,
               format_guests(voucher.guests),
+              voucher.client.intakes.last&.county_eligibility,
             ]
           end
       end
