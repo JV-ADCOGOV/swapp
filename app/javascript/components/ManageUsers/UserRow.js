@@ -3,11 +3,6 @@ import React from 'react'
 const UserRow = (props) => {
   return (
     <tr>
-      <td className="px-1 py-4 whitespace-nowrap">
-        <span className="text-sm md:text-base font-medium leading-none">
-          {`${props.person.id}`}
-        </span>
-      </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex items-center">
           <div className="flex-shrink-0 h-10 w-10">
